@@ -33,19 +33,49 @@
 # Let's get the locations saved in the form of variables:
 # For INT1 AU
 ROOT_DIR_INT1=/mnt/backup/volaxn_iau/nfs/int1/masterdata/    #This is the common path.
-PRICE_DIR_AU_INT1=$ROOT_DIR_INT1/au/master                  #Price files are dropped here by the data team. 
-APWEB_AU_INT1=$ROOT_DIR_INT1/au/apwebdata
-AUDMOB_AU_INT1=$ROOT_DIR_INT1/au/audamobile
-SRCHTREE_AU_INT1_DATA=$ROOT_DIR_INT1/au/searchtree           #The same files need to be copied to axn/config directory or else there will be issues.
-SRCHTREE_AU_INT1_CNFG=/mnt/backup/volaxn_iau/nfs/int1/axn/config/au/searchtree
-QPTR_DROP_AU=$ROOT_DIR_INT1/au/Qapter                           #These files need to be copied to webpaddata folder under the correct directory structure.
-WBPD_AU_INT1=$ROOT_DIR_INT1/au/webpaddata                    #Create a new directoy under this folder and copy the tips folder from the previous version folder.
+PRICE_DIR_AU_INT1=$ROOT_DIR_INT1/$COUNTRY/master/                  #Price files are dropped here by the data team.
+APWEB_AU_INT1=$ROOT_DIR_INT1/$COUNTRY/apwebdata/
+AUDMOB_AU_INT1=$ROOT_DIR_INT1/$COUNTRY/audamobile/                 #There is no audamobile for NZ; so need to figure out a way to avoid this for NZ.
+SRCHTREE_AU_INT1_DATA=$ROOT_DIR_INT1/$COUNTRY/searchtree/           #The same files need to be copied to axn/config directory or else there will be issues.
+SRCHTREE_AU_INT1_CNFG=/mnt/backup/volaxn_iau/nfs/int1/axn/config/$COUNTRY/searchtree/
+QPTR_DROP_AU=$ROOT_DIR_INT1/$COUNTRY/Qapter                       #These files need to be copied to webpaddata folder under the correct directory structure.
+WBPD_AU_INT1=$ROOT_DIR_INT1/$COUNTRY/webpaddata                    #Create a new directoy under this folder and copy the tips folder from the previous version folder.
 
 #For INT1 NZ
-PRICE_DIR_NZ_INT1=$ROOT_DIR_INT1/nz/master                   #Price files are dropped here by the data team. 
-APWEB_NZ_INT1=$ROOT_DIR_INT1/nz/apwebdata
-AUDMOB_NZ_INT1=$ROOT_DIR_INT1/nz/audamobile
-SRCHTREE_NZ_INT1_DATA=$ROOT_DIR_INT1/nz/searchtree           #The same files need to be copied to axn/config directory or else there will be issues.
-SRCHTREE_NZ_INT1_CNFG=/mnt/backup/volaxn_iau/nfs/int1/axn/config/nz/searchtree
-QPTR_DROP_NZ=$ROOT_DIR_INT1/nz/Qapter                           #These files need to be copied to webpaddata folder under the correct directory structure.
-WBPD_NZ_INT1=$ROOT_DIR_INT1/nz/webpaddata                    #Create a new directoy under this folder and copy the tips folder from the previous version folder.
+#PRICE_DIR_NZ_INT1=$ROOT_DIR_INT1/$COUNTRY/master                   #Price files are dropped here by the data team.
+#APWEB_NZ_INT1=$ROOT_DIR_INT1/nz/apwebdata
+#AUDMOB_NZ_INT1=$ROOT_DIR_INT1/nz/audamobile
+#SRCHTREE_NZ_INT1_DATA=$ROOT_DIR_INT1/nz/searchtree           #The same files need to be copied to axn/config directory or else there will be issues.
+#SRCHTREE_NZ_INT1_CNFG=/mnt/backup/volaxn_iau/nfs/int1/axn/config/nz/searchtree
+#QPTR_DROP_NZ=$ROOT_DIR_INT1/nz/Qapter                           #These files need to be copied to webpaddata folder under the correct directory structure.
+#WBPD_NZ_INT1=$ROOT_DIR_INT1/nz/webpaddata                    #Create a new directoy under this folder and copy the tips folder from the previous version folder.
+
+# Now that the location specific variables are taken care of, let's find a way for the user to provide some way of input to distinguish between the role of this script.
+# I want the user to input firstly whether the script is being used to do a price file release or a data release. Also, I need the user to tell the script as to what country is it for and
+# what envrironment. I am thinking of creating fucntions for each of these tasks and then depending on the user input, calling a case to perform that function.
+# Firstly need to find out out what the user wants to do. Let's ask some questions:
+
+echo "What do you want to do?"
+sleep 2
+echo "Your options are:"
+echo "Price File Update OR Data Release"
+sleep 2
+echo "For PriceFileUpdate, enter: PRICE"
+sleep 2
+echo "For DataRelease, enter: DATA"
+
+# User's iput will need to be stored in a variable for later use:
+read UINPT                     # This variable defines the task that the script is doing.
+echo "You have chosen a $UINPT release."
+
+# Now, we need to know what country does the user want to make the changes to. Again, asking some questions:
+
+echo "What country you want to run this script for?"
+sleep 2
+echo "Options are: au or nz"
+sleep 2
+echo "Please enter one of the options from au/nz"
+
+# Let's read the input and save this in a variable country
+read COUNTRY
+echo "You have chosen $COUNTRY."
