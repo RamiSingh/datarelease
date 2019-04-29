@@ -56,9 +56,8 @@ WBPD_PROD=$ROOT_DIR_PROD/$COUNTRY/webpaddata/                          #There is
 # Now that the location specific variables are taken care of, let's find a way for the user to provide some way of input to distinguish between the role of this script.
 # I want the user to input firstly whether the script is being used to do a price file release or a data release. Also, I need the user to tell the script as to what country is it for and
 # what envrironment. I am thinking of creating fucntions for each of these tasks and then depending on the user input, calling a case to perform that function.
+
 # Firstly need to find out out what the user wants to do. Let's ask some questions:
-
-
 echo "What country you want to run this script for?
       Options are: au or nz
       Please enter one of the options from au/nz. Please use lower case only"
@@ -67,8 +66,7 @@ echo "What country you want to run this script for?
 read COUNTRY
 echo "You have chosen $COUNTRY."
 
-
-echo "What do you want to do?
+echo "What update do you want to do?
       Your options are:
       For PriceFileUpdate, enter: PRICE
       For DataRelease, enter: DATA"
@@ -188,3 +186,5 @@ price_update()
         ;;
     esac
  }
+
+# The next big step is to create functions that run the data release updates
