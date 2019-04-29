@@ -174,12 +174,17 @@ price_update()
                     esac
 
          echo $NEW_PRICE > lastversion.dat
+         ;;
 
         PP)
-
+          scp -r $NEW_PRICE tcserver@axn-tc01-p2au:/u01/masterdata/$COUNTRY/master/ && sleep 10   # scp will take some time so to make sure that
+          #+ it finishes before updating the lastversion, putting it to sleep for 10 seconds.
+          scp lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/$COUNTRY/master/
+        ;;
 
         PROD)
-
-
-
-      esac
+          cp -rp $NEW_PRICE  $PRICE_DIR_PROD/ && sleep 10
+          echo $NEW_PRICE > $PRICE_DIR_PROD/lastversion.dat
+        ;;
+    esac
+ }
