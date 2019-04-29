@@ -59,20 +59,19 @@ WBPD_PROD=$ROOT_DIR_PROD/$COUNTRY/webpaddata/                          #There is
 # Firstly need to find out out what the user wants to do. Let's ask some questions:
 
 
-echo "What country you want to run this script for?"
-echo "Options are: au or nz"
-echo "Please enter one of the options from au/nz. Please use lower case only"
+echo "What country you want to run this script for?
+      Options are: au or nz
+      Please enter one of the options from au/nz. Please use lower case only"
 
 # Let's read the input and save this in a variable country
 read COUNTRY
 echo "You have chosen $COUNTRY."
 
 
-echo "What do you want to do?"
-echo "Your options are:"
-echo "Price File Update OR Data Release"
-echo "For PriceFileUpdate, enter: PRICE"
-echo "For DataRelease, enter: DATA"
+echo "What do you want to do?
+      Your options are:
+      For PriceFileUpdate, enter: PRICE
+      For DataRelease, enter: DATA"
 
 # User's iput will need to be stored in a variable for later use:
 read UINPT                     # This variable defines the task that the script is doing.
@@ -157,13 +156,30 @@ esac
 
 price_update()
 {
+
+    cd $PRICE_DIR_INT1=$ROOT_DIR_INT1/$COUNTRY/master/   #Both PrOD2 and PROD get the updated files from INT1 directory.
+
     case "$ENV" in
+#Let the case decide what commands need to run based on the ENV given by the user.
+        INT)
+          PREVER=$(cat lastversion.dat)
+          cp -p $PREVER/P8000.* $NEW_PRICE/
+# Nested case to determine the Country specific files that are copied over from the previous folder. There must be a better way to do this but let's just stick with
+#+ what we are used to doing.
+                    case $COUNTRY in
+                        au) cp -p $PREVER/P8005enAU.dat $NEW_PRICE/
+                        ;;
+                        nz) cp -p $PREVER/P8006ENNZ.dat $NEW_PRICE/
+                        ;;
+                    esac
 
-      INT)
-      cd
+         echo $NEW_PRICE > lastversion.dat
+
+        PP)
+
+
+        PROD)
 
 
 
-
-
-}
+      esac
