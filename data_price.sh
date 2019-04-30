@@ -63,7 +63,7 @@ echo "What country you want to run this script for?
       Please enter one of the options from au/nz. Please use lower case only"
 
 # Let's read the input and save this in a variable country
-read COUNTRY
+read -r COUNTRY
 echo "You have chosen $COUNTRY."
 
 echo "What update do you want to do?
@@ -72,7 +72,7 @@ echo "What update do you want to do?
       For DataRelease, enter: DATA"
 
 # User's iput will need to be stored in a variable for later use:
-read UINPT                     # This variable defines the task that the script is doing.
+read -r UINPT                     # This variable defines the task that the script is doing.
 echo "You have chosen a $UINPT release."
 
 # Ask user for the environment for which this script needs to run:
@@ -83,7 +83,7 @@ INT
 PP
 PROD"
 echo "Please enter one of the above options"
-read ENV
+read -r ENV
 
 # The idea is to create functions for each of these environments. INT and PROD can be done using the same function but PP will need to be written separately as the file system structure will not allow for simple cp command.
 
@@ -95,40 +95,40 @@ read ENV
 price_prompt()
     {
       echo "Please enter the price file version in the format XXXX. e.g. 0075"
-      read NEW_PRICE     #This will be called by the price file update function.
+      read -r NEW_PRICE     #This will be called by the price file update function.
     }
 
 #The reason to use separate prompts for AU and NZ is that the Audamobile does not exist for NZ.
 data_prompt_au()
     {
       echo "Please enter the version of apwebdata/onepad"
-      read APW_AU
+      read -r APW_AU
 
       echo "Please enter the version of Audamobile"
-      read AM_AU
+      read -r AM_AU
 
       echo "Please enter the version of Searchtree"
-      read ST_AU
+      read -r ST_AU
 
      #Qapter files need to be  copied over to the webpaddata folder before being updated.We will get the Qapter folder version and then move the files
      #+ This is only for INT1. For Prod2 the files will be directly copied from INT1. Same goes for PROD.
       echo "Please enter the version of Qapter"
-      read QAP_AU
+      read -r QAP_AU
     }
 
 data_prompt_nz()
     {
       echo "Please enter the version of apwebdata/onepad"
-      read APW_NZ
+      read -r APW_NZ
 
 
       echo "Please enter the version of Searchtree"
-      read ST_NZ
+      read -r ST_NZ
 
      #Qapter files need to be  copied over to the webpaddata folder before being updated.We will get the Qapter folder version and then move the files
      #+ This is only for INT1. For Prod2 the files will be directly copied from INT1. Same goes for PROD.
       echo "Please enter the version of Qapter"
-      read QAP_NZ
+      read -r QAP_NZ
     }
 
 #The functions to gather the version details are now done. Next, we need to use these functions in a case statement:
