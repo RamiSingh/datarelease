@@ -191,3 +191,48 @@ price_update()
 # Need to figure out a way to create a single function for data release for both AU and NZ. 'case statement' seems like a good candidate
 #+ for this. This will only be needed in case of Audomobile update as AM is not present in NZ. So, the script should simply echo that
 #+ there is nothing to do when the case encouters NZ.
+
+data_update()
+{
+#Apwebdata
+#-- The data is uploaded to /u01/masterdata/au/apwebdata/
+#-- The new folder needs to have a copy of the "tips" folder from the previous folder (that was given in lastversion.dat)
+#-- update the lastversion.dat file with the latest folder and it is done
+
+#Three cases 1.INT 2.PP 3.PROD
+
+
+#Audamobile
+#-- All we need to do is to update the lastversion.dat file with the latest folder and it is done
+#Three cases 1.INT 2.PP 3.PROD
+
+
+#Searchtree
+#update the lastversion.dat in /u01/masterdata/<au/nz>/searchtree folder
+#Copy the recently uploaded 00xx foder from /u01/masterdata/<au/nz>/searchtree to /u01/axn/config/<au/nz>/searchtree and update the lastversion file
+
+
+#Three cases 1.INT 2.PP 3.PROD
+
+#webpaddata
+#-- The files are uploaded via the FTP to the int servers by the data teams
+
+#-- The location of the uploads is: /u01/masterdata/au/Qapter/000x
+
+#-- List the folders by the date and note the folders
+
+#-- The latest folder needs to be copied to : /u01/masterdata/au/webpaddata/
+#-- Keep in mind that the latest folder in this location can be different from what is uploaded in /u01/masterdata/au/Qapter.
+
+#-- Let's assume for the sake of this exercise that the uploaded folder is '000x' and the latest folder that exists in /u01/masterdata/au/webpaddata is '000y'
+
+#-- We need to copy the data from '000x' to '000y+1/data/'
+
+#-- Once this is done, the "tips" folder needs to be copied from '000y' to '000y+1/data/' [Note: the tips folder would be found in the folder that is listed in the lastversion.dat file]
+
+
+#-- Next step would be to update the lastversion.dat with '000y+1'
+
+#Three cases 1.INT 2.PP 3.PROD
+
+}
