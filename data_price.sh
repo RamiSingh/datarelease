@@ -200,6 +200,56 @@ data_update()
 #-- update the lastversion.dat file with the latest folder and it is done
 
 #Three cases 1.INT 2.PP 3.PROD
+case "$ENV" in
+
+
+      INT)
+              case "$COUNTRY" in
+                  au)
+                  #commands
+                  ;;
+
+                  nz)
+                  #commands
+                  ;;
+              esac     
+#more commands
+
+
+      ;;
+      PP)
+              case "$COUNTRY" in
+                  au)
+                  #commands
+                  ;;
+
+                  nz)
+                  #commands
+                  ;;
+
+                  #more commands
+              esac
+      ;;
+      PROD)
+
+              case "$COUNTRY" in
+                  au)
+                  #COMMANDS
+                  ;;
+
+                  nz)
+                  #COMMANDS
+                  ;;
+              esac
+  #more commands
+
+
+
+      ;;
+
+esac
+
+
 
 
 #Audamobile
