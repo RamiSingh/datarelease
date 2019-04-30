@@ -188,3 +188,6 @@ price_update()
  }
 
 # The next big step is to create functions that run the data release updates
+# Need to figure out a way to create a single function for data release for both AU and NZ. 'case statement' seems like a good candidate
+#+ for this. This will only be needed in case of Audomobile update as AM is not present in NZ. So, the script should simply echo that
+#+ there is nothing to do when the case encouters NZ.
