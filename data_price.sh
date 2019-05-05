@@ -380,12 +380,6 @@ case "$ENV" in
 
 esac
 
-
-
-
-
-#Three cases 1.INT 2.PP 3.PROD
-
 #webpaddata
 #-- The files are uploaded via the FTP to the int servers by the data teams
 
@@ -406,5 +400,79 @@ esac
 #-- Next step would be to update the lastversion.dat with '000y+1'
 
 #Three cases 1.INT 2.PP 3.PROD
+case "$ENV" in
+
+
+      INT)
+              case "$COUNTRY" in
+                  au)
+                  cd $AU_ROOT/webpaddata/
+#First of all, we need to know what's the last folder in webpaddata folder.
+                  local WP_OLD=(< lastversion.dat)
+#Create a variable that adds 1 to the value of existing lastversion number
+                  local WP_NEW="00$(expr $WP_OLD + 1)"
+#create a new directoy using the NEW variable
+                  mkdir -p "$WP_NEW"/data/
+                  chown -R 700:700 "$WP_NEW"
+#Next, go back to the Qapter folder where the latest files are uploaded and copy them
+#+ to the newly created directory, in the steps above.
+                  cd $AU_ROOT/Qapter
+                  cp -rp $QAP_AU/* $AU_ROOT/webpaddata/"WP_NEW"/data/
+                  cp -rp $QAP_AU/data/tips $AU_ROOT/webpaddata/"WP_NEW"/data/
+                  cd $AU_ROOT/webpaddata/
+                  echo "$WP_NEW" > lastversion.dat
+                  ;;
+
+                  nz)
+                  cd $NZ_ROOT/webpaddata/
+                  local WP_OLD=(< lastversion.dat)
+                  local WP_NEW="00$(expr $WP_OLD + 1)"
+                  mkdir -p "$WP_NEW"/data/
+                  chown -R 700:700 "$WP_NEW"
+                  cd $NZ_ROOT/Qapter
+                  cp -rp $QAP_NZ/* $AU_ROOT/webpaddata/"WP_NEW"/data/
+                  cp -rp $QAP_NZ/data/tips $NZ_ROOT/webpaddata/"WP_NEW"/data/
+                  cd $NZ_ROOT/webpaddata/
+                  echo "$WP_NEW" > lastversion.dat
+                  ;;
+
+              esac
+      ;;
+
+      PP)
+              case "$COUNTRY" in
+                  au)
+                  
+                  ;;
+
+                  nz)
+                  ;;
+              esac
+      ;;
+
+      PROD)
+
+              case "$COUNTRY" in
+                  au)
+                  cd $AU_ROOT/searchtree/
+                  cp -rp "$ST_AU"/ $SRCHTREE_PROD_DATA/ && sleep 5
+                  echo "$ST_AU" > "$SRCHTREE_PROD_DATA"/lastversion.dat
+                  cp -rp "$ST_AU" "$SRCHTREE_PROD_CNFG"/
+                  echo "$ST_AU" > "$SRCHTREE_PROD_CNFG"/lastversion.dat
+                  ;;
+
+                  nz)
+                  cd $NZ_ROOT/searchtree/
+                  cp -rp "$ST_AU"/ $SRCHTREE_PROD_DATA/ && sleep 5
+                  echo "$ST_AU" > "$SRCHTREE_PROD_DATA"/lastversion.dat
+                  cp -rp "$ST_AU" "$SRCHTREE_PROD_CNFG"/
+                  echo "$ST_AU" > "$SRCHTREE_PROD_CNFG"/lastversion.dat
+                  ;;
+              esac
+      ;;
+
+esac
+
+
 
 }
