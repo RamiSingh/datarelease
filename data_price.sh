@@ -206,16 +206,19 @@ case "$ENV" in
       INT)
               case "$COUNTRY" in
                   au)
-                  #commands
-                  local AU_ROOT=/mnt/backup/volaxn_iau/nfs/int1/masterdata/au/
+                 local AU_ROOT=/mnt/backup/volaxn_iau/nfs/int1/masterdata/au/
                   cd $AU_ROOT/apwebdata/
-                  LAST_VER=$(cat lastversion.dat)
-                  cp -rp $LAST_VER/tips/ $APW_AU/ && sleep 10
+                  LAST_VER_AU=$(cat lastversion.dat)
+                  cp -rp $LAST_VER_AU/tips/ $APW_AU/ && sleep 10
                   echo "$APW_AU" > lastversion.dat
                   ;;
 
                   nz)
-                  #commands
+                  local NZ_ROOT=/mnt/backup/volaxn_iau/nfs/int1/masterdata/au/
+                  cd $NZ_ROOT/apwebdata/
+                  LAST_VER_NZ=$(cat lastversion.dat)
+                  cp -rp $LAST_VER_NZ/tips/ $APW_NZ/ && sleep 10
+                  echo "$APW_NZ" > lastversion.dat
                   ;;
               esac
 #more commands
