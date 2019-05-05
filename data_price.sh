@@ -198,7 +198,8 @@ data_update()
 #-- The data is uploaded to /u01/masterdata/au/apwebdata/
 #-- The new folder needs to have a copy of the "tips" folder from the previous folder (that was given in lastversion.dat)
 #-- update the lastversion.dat file with the latest folder and it is done
-
+local AU_ROOT=/mnt/backup/volaxn_iau/nfs/int1/masterdata/au/
+local NZ_ROOT=/mnt/backup/volaxn_iau/nfs/int1/masterdata/au/
 #Three cases 1.INT 2.PP 3.PROD
 case "$ENV" in
 
@@ -255,20 +256,62 @@ case "$ENV" in
                   echo "$APW_NZ" > $APWEB_PROD/lastversion.dat
                   ;;
               esac
-  #more commands
-
-
-
       ;;
 
 esac
 
-
-
-
 #Audamobile
 #-- All we need to do is to update the lastversion.dat file with the latest folder and it is done
 #Three cases 1.INT 2.PP 3.PROD
+
+case "$ENV" in
+
+
+      INT)
+              case "$COUNTRY" in
+                  au)
+                  cd $AU_ROOT/audamobile/ || exit 4
+                  echo "$AM_AU" > lastversion.dat
+                  ;;
+
+                  nz)
+                  cd $NZ_ROOT/audamobile/ || exit 4
+                  echo "$AM_NZ" > lastversion.dat
+                  ;;
+              esac
+      ;;
+
+      PP)
+              case "$COUNTRY" in
+                  au)
+                  cd $AU_ROOT/audamobile/ || exit 4
+                  scp -r $AM_AU  tcserver@axn-tc01-p2au:/u01/masterdata/au/audamobile/ && sleep 10
+                  scp lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/au/audamobile/
+                  ;;
+
+                  nz)
+                  echo "There is no AudaMobile in NZ. Moving on....."
+                  ;;
+              esac
+      ;;
+
+      PROD)
+
+              case "$COUNTRY" in
+                  au)
+                  cd $AU_ROOT/audamobile/ || exit 4
+                  cp -rp $AM_AU/ $AUDMOB_PROD/ && sleep 10
+                  echo "$AM_AU" > $AUDMOB_PROD/lastversion.dat
+                  ;;
+
+                  nz)
+                  echo "There is no AudaMobile in NZ. Moving on....."
+                  ;;
+              esac
+      ;;
+
+esac
+
 
 
 #Searchtree
