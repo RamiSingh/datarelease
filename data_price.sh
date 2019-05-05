@@ -30,12 +30,12 @@
 ##############################
 #   DATA RELEASE V1.0(WIP)   #
 ##############################
-
+set -e
 #INT1 specific directories:
 ROOT_DIR_INT1=/mnt/backup/volaxn_iau/nfs/int1/masterdata/    #This is the common path.
 PRICE_DIR_INT1=$ROOT_DIR_INT1/$COUNTRY/master/                  #Price files are dropped here by the data team.
-APWEB_INT1=$ROOT_DIR_INT1/$COUNTRY/apwebdata/
-AUDMOB_INT1=$ROOT_DIR_INT1/$COUNTRY/audamobile/                 #There is no audamobile for NZ; so need to figure out a way to avoid this for NZ.
+APWEB_INT1=$ROOT_DIR_INT1/"$COUNTRY"/apwebdata/
+AUDMOB_INT1=$ROOT_DIR_INT1/"$COUNTRY"/audamobile/                 #There is no audamobile for NZ; so need to figure out a way to avoid this for NZ.
 SRCHTREE_INT1_DATA=$ROOT_DIR_INT1/$COUNTRY/searchtree/           #The same files need to be copied to axn/config directory or else there will be issues.
 SRCHTREE_INT1_CNFG=/mnt/backup/volaxn_iau/nfs/int1/axn/config/$COUNTRY/searchtree/
 QPTR_DROP=$ROOT_DIR_INT1/$COUNTRY/Qapter                       #These files need to be copied to webpaddata folder under the correct directory structure.
@@ -322,14 +322,14 @@ case "$ENV" in
       INT)
               case "$COUNTRY" in
                   au)
-                  cd $AU_ROOT/searchtree/ || exit 4
+                  cd $AU_ROOT/searchtree/
                   echo "$ST_AU" > lastversion.dat
                   cp -rp $ST_AU $SRCHTREE_INT1_CNFG/
                   echo "$ST_AU" $SRCHTREE_INT1_CNFG/lastversion.data
                   ;;
 
                   nz)
-                  cd $NZ_ROOT/searchtree/ || exit 4
+                  cd $NZ_ROOT/searchtree/
                   echo "$ST_NZ" > lastversion.dat
                   cp -rp $ST_NZ $SRCHTREE_INT1_CNFG/
                   echo "$ST_NZ" $SRCHTREE_INT1_CNFG/lastversion.data
@@ -340,13 +340,19 @@ case "$ENV" in
       PP)
               case "$COUNTRY" in
                   au)
-                  cd $AU_ROOT/audamobile/ || exit 4
-                  scp -r $AM_AU  tcserver@axn-tc01-p2au:/u01/masterdata/au/audamobile/ && sleep 10
-                  scp lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/au/audamobile/
+                  cd $AU_ROOT/searchtree/
+                  scp -r $ST_AU  tcserver@axn-tc01-p2au:/u01/masterdata/au/searchtree/ && sleep 10
+                  scp lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/au/searchtree/
+                  scp -r $ST_AU  tcserver@axn-tc01-p2au:/u01/axn/config/au/searchtree/
+                  scp lastversion.dat tcserver@axn-tc01-p2au:/u01/axn/config/au/searchtree/
                   ;;
 
                   nz)
-                  echo "There is no AudaMobile in NZ. Moving on....."
+                  cd $NZ_ROOT/searchtree/
+                  scp -r $ST_NZ  tcserver@axn-tc01-p2au:/u01/masterdata/nz/searchtree/ && sleep 10
+                  scp lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/nz/searchtree/
+                  scp -r $ST_NZ  tcserver@axn-tc01-p2au:/u01/axn/config/nz/searchtree/
+                  scp lastversion.dat tcserver@axn-tc01-p2au:/u01/axn/config/nz/searchtree/
                   ;;
               esac
       ;;
@@ -355,7 +361,7 @@ case "$ENV" in
 
               case "$COUNTRY" in
                   au)
-                  cd $AU_ROOT/audamobile/ || exit 4
+                  cd $AU_ROOT/audamobile/
                   cp -rp $AM_AU/ $AUDMOB_PROD/ && sleep 10
                   echo "$AM_AU" > $AUDMOB_PROD/lastversion.dat
                   ;;
