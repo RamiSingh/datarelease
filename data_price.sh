@@ -155,7 +155,7 @@ esac
 price_update()
 {
 
-    cd $PRICE_DIR_INT1=$ROOT_DIR_INT1/$COUNTRY/master/   #Both PrOD2 and PROD get the updated files from INT1 directory.
+    cd $PRICE_DIR_INT1=$ROOT_DIR_INT1/$COUNTRY/master/ || exit 4   #Both PrOD2 and PROD get the updated files from INT1 directory.
 
     case "$ENV" in
 #Let the case decide what commands need to run based on the ENV given by the user.
@@ -207,7 +207,7 @@ case "$ENV" in
               case "$COUNTRY" in
                   au)
                  local AU_ROOT=/mnt/backup/volaxn_iau/nfs/int1/masterdata/au/
-                  cd $AU_ROOT/apwebdata/
+                  cd $AU_ROOT/apwebdata/ || exit 4
                   LAST_VER_AU=$(cat lastversion.dat)
                   cp -rp $LAST_VER_AU/tips/ $APW_AU/ && sleep 10
                   echo "$APW_AU" > lastversion.dat
@@ -215,29 +215,30 @@ case "$ENV" in
 
                   nz)
                   local NZ_ROOT=/mnt/backup/volaxn_iau/nfs/int1/masterdata/au/
-                  cd $NZ_ROOT/apwebdata/
+                  cd $NZ_ROOT/apwebdata/ || exit 4
                   LAST_VER_NZ=$(cat lastversion.dat)
                   cp -rp $LAST_VER_NZ/tips/ $APW_NZ/ && sleep 10
                   echo "$APW_NZ" > lastversion.dat
                   ;;
               esac
-#more commands
-
-
       ;;
+
       PP)
               case "$COUNTRY" in
                   au)
-                  #commands
+                  cd $AU_ROOT/apwebdata/ || exit 4
+                  scp -r $APW_AU  tcserver@axn-tc01-p2au:/u01/masterdata/au/apwebdata/ && sleep 10
+                  scp lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/au/apwebdata/
                   ;;
 
                   nz)
-                  #commands
+                  cd $NZ_ROOT/apwebdata/ || exit 4
+                  scp -r $APW_NZ  tcserver@axn-tc01-p2au:/u01/masterdata/nz/apwebdata/ && sleep 10
+                  scp lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/nz/apwebdata/
                   ;;
-
-                  #more commands
               esac
       ;;
+
       PROD)
 
               case "$COUNTRY" in
