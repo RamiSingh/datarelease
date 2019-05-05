@@ -276,7 +276,7 @@ case "$ENV" in
 
                   nz)
                   cd $NZ_ROOT/audamobile/ || exit 4
-                  echo "$AM_NZ" > lastversion.dat
+                  echo "There is no AudaMobile in NZ. Moving on....."
                   ;;
               esac
       ;;
@@ -313,10 +313,63 @@ case "$ENV" in
 esac
 
 
-
 #Searchtree
 #update the lastversion.dat in /u01/masterdata/<au/nz>/searchtree folder
 #Copy the recently uploaded 00xx foder from /u01/masterdata/<au/nz>/searchtree to /u01/axn/config/<au/nz>/searchtree and update the lastversion file
+case "$ENV" in
+
+
+      INT)
+              case "$COUNTRY" in
+                  au)
+                  cd $AU_ROOT/searchtree/ || exit 4
+                  echo "$ST_AU" > lastversion.dat
+                  cp -rp $ST_AU $SRCHTREE_INT1_CNFG/
+                  echo "$ST_AU" $SRCHTREE_INT1_CNFG/lastversion.data
+                  ;;
+
+                  nz)
+                  cd $NZ_ROOT/searchtree/ || exit 4
+                  echo "$ST_NZ" > lastversion.dat
+                  cp -rp $ST_NZ $SRCHTREE_INT1_CNFG/
+                  echo "$ST_NZ" $SRCHTREE_INT1_CNFG/lastversion.data
+                  ;;
+              esac
+      ;;
+
+      PP)
+              case "$COUNTRY" in
+                  au)
+                  cd $AU_ROOT/audamobile/ || exit 4
+                  scp -r $AM_AU  tcserver@axn-tc01-p2au:/u01/masterdata/au/audamobile/ && sleep 10
+                  scp lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/au/audamobile/
+                  ;;
+
+                  nz)
+                  echo "There is no AudaMobile in NZ. Moving on....."
+                  ;;
+              esac
+      ;;
+
+      PROD)
+
+              case "$COUNTRY" in
+                  au)
+                  cd $AU_ROOT/audamobile/ || exit 4
+                  cp -rp $AM_AU/ $AUDMOB_PROD/ && sleep 10
+                  echo "$AM_AU" > $AUDMOB_PROD/lastversion.dat
+                  ;;
+
+                  nz)
+                  cd $NZ_ROOT/
+                  ;;
+              esac
+      ;;
+
+esac
+
+
+
 
 
 #Three cases 1.INT 2.PP 3.PROD
