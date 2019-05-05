@@ -243,11 +243,16 @@ case "$ENV" in
 
               case "$COUNTRY" in
                   au)
-                  #COMMANDS
+                  cd $AU_ROOT/apwebdata/ || exit 4
+                  cp -rp $APW_AU/ $APWEB_PROD/ && sleep 10
+                  echo "$APW_AU" > $APWEB_PROD/lastversion.dat
                   ;;
 
                   nz)
                   #COMMANDS
+                  cd $NZ_ROOT/apwebdata/ || exit 4
+                  cp -rp $APW_NZ/ $APWEB_PROD/ && sleep 10
+                  echo "$APW_NZ" > $APWEB_PROD/lastversion.dat
                   ;;
               esac
   #more commands
