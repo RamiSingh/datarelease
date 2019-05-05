@@ -341,7 +341,7 @@ case "$ENV" in
               case "$COUNTRY" in
                   au)
                   cd $AU_ROOT/searchtree/
-                  scp -r $ST_AU  tcserver@axn-tc01-p2au:/u01/masterdata/au/searchtree/ && sleep 10
+                  scp -r $ST_AU  tcserver@axn-tc01-p2au:/u01/masterdata/au/searchtree/ && sleep 5
                   scp lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/au/searchtree/
                   scp -r $ST_AU  tcserver@axn-tc01-p2au:/u01/axn/config/au/searchtree/
                   scp lastversion.dat tcserver@axn-tc01-p2au:/u01/axn/config/au/searchtree/
@@ -349,7 +349,7 @@ case "$ENV" in
 
                   nz)
                   cd $NZ_ROOT/searchtree/
-                  scp -r $ST_NZ  tcserver@axn-tc01-p2au:/u01/masterdata/nz/searchtree/ && sleep 10
+                  scp -r $ST_NZ  tcserver@axn-tc01-p2au:/u01/masterdata/nz/searchtree/ && sleep 5
                   scp lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/nz/searchtree/
                   scp -r $ST_NZ  tcserver@axn-tc01-p2au:/u01/axn/config/nz/searchtree/
                   scp lastversion.dat tcserver@axn-tc01-p2au:/u01/axn/config/nz/searchtree/
@@ -361,13 +361,19 @@ case "$ENV" in
 
               case "$COUNTRY" in
                   au)
-                  cd $AU_ROOT/audamobile/
-                  cp -rp $AM_AU/ $AUDMOB_PROD/ && sleep 10
-                  echo "$AM_AU" > $AUDMOB_PROD/lastversion.dat
+                  cd $AU_ROOT/searchtree/
+                  cp -rp "$ST_AU"/ $SRCHTREE_PROD_DATA/ && sleep 5
+                  echo "$ST_AU" > "$SRCHTREE_PROD_DATA"/lastversion.dat
+                  cp -rp "$ST_AU" "$SRCHTREE_PROD_CNFG"/
+                  echo "$ST_AU" > "$SRCHTREE_PROD_CNFG"/lastversion.dat
                   ;;
 
                   nz)
-                  cd $NZ_ROOT/
+                  cd $NZ_ROOT/searchtree/
+                  cp -rp "$ST_AU"/ $SRCHTREE_PROD_DATA/ && sleep 5
+                  echo "$ST_AU" > "$SRCHTREE_PROD_DATA"/lastversion.dat
+                  cp -rp "$ST_AU" "$SRCHTREE_PROD_CNFG"/
+                  echo "$ST_AU" > "$SRCHTREE_PROD_CNFG"/lastversion.dat
                   ;;
               esac
       ;;
