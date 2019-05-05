@@ -430,8 +430,8 @@ case "$ENV" in
                   mkdir -p "$WP_NEW"/data/
                   chown -R 700:700 "$WP_NEW"
                   cd $NZ_ROOT/Qapter
-                  cp -rp $QAP_NZ/* $AU_ROOT/webpaddata/"WP_NEW"/data/
-                  cp -rp $QAP_NZ/data/tips $NZ_ROOT/webpaddata/"WP_NEW"/data/
+                  cp -rp $QAP_NZ/* $AU_ROOT/webpaddata/"$WP_NEW"/data/
+                  cp -rp $QAP_NZ/data/tips $NZ_ROOT/webpaddata/"$WP_NEW"/data/
                   cd $NZ_ROOT/webpaddata/
                   echo "$WP_NEW" > lastversion.dat
                   ;;
@@ -442,7 +442,7 @@ case "$ENV" in
       PP)
               case "$COUNTRY" in
                   au)
-                  
+
                   ;;
 
                   nz)
