@@ -207,12 +207,17 @@ case "$ENV" in
               case "$COUNTRY" in
                   au)
                   #commands
+                  local AU_ROOT=/mnt/backup/volaxn_iau/nfs/int1/masterdata/au/
+                  cd $AU_ROOT/apwebdata/
+                  LAST_VER=$(cat lastversion.dat)
+                  cp -rp $LAST_VER/tips/ $APW_AU/ && sleep 10
+                  echo "$APW_AU" > lastversion.dat
                   ;;
 
                   nz)
                   #commands
                   ;;
-              esac     
+              esac
 #more commands
 
 
