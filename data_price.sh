@@ -133,24 +133,30 @@ data_prompt_nz()
 
 #The functions to gather the version details are now done. Next, we need to use these functions in a case statement:
 
-case "$UINPT" in
+main() {
+
+  case "$UINPT" in
 
   PRICE|price) price_prompt
+               price_update
               ;;
   DATA|data)
               if [[ $COUNTRY == 'au' ]];
               then
                   data_prompt_au
+                  data_update
+
               elif [[ $COUNTRY == 'nz' ]];
               then
                   data_prompt_nz
+                  data_update
               else
                   exit 4
               fi
               ;;
 esac
-
-# PRICE FILE update function is probably the simpleast of these.
+       }
+# PRICE FILE update function is probably the simplest of these.
 
 price_update()
 {
@@ -454,8 +460,3 @@ case "$ENV" in
 
 esac
 }
-
-#Now that all the types of releases have been encapsulated in the form of functions
-#+ it's time to call these functions based on user input.
-
-case
