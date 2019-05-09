@@ -460,3 +460,6 @@ case "$ENV" in
 
 esac
 }
+
+#The main function is now called to perform the tasks depending on the user input captured above.
+main
