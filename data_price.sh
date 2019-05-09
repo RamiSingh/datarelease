@@ -194,10 +194,6 @@ price_update()
 
 data_update()
 {
-#Apwebdata
-#-- The data is uploaded to /u01/masterdata/au/apwebdata/
-#-- The new folder needs to have a copy of the "tips" folder from the previous folder (that was given in lastversion.dat)
-#-- update the lastversion.dat file with the latest folder and it is done
 local AU_ROOT=/mnt/backup/volaxn_iau/nfs/int1/masterdata/au/
 local NZ_ROOT=/mnt/backup/volaxn_iau/nfs/int1/masterdata/au/
 #Three cases 1.INT 2.PP 3.PROD
@@ -270,12 +266,12 @@ case "$ENV" in
       INT)
               case "$COUNTRY" in
                   au)
-                  cd $AU_ROOT/audamobile/ || exit 4
+                  cd $AU_ROOT/audamobile/
                   echo "$AM_AU" > lastversion.dat
                   ;;
 
                   nz)
-                  cd $NZ_ROOT/audamobile/ || exit 4
+                  cd $NZ_ROOT/audamobile/
                   echo "There is no AudaMobile in NZ. Moving on....."
                   ;;
               esac
@@ -284,8 +280,8 @@ case "$ENV" in
       PP)
               case "$COUNTRY" in
                   au)
-                  cd $AU_ROOT/audamobile/ || exit 4
-                  scp -r $AM_AU  tcserver@axn-tc01-p2au:/u01/masterdata/au/audamobile/ && sleep 10
+                  cd $AU_ROOT/audamobile/
+                  scp -rp $AM_AU  tcserver@axn-tc01-p2au:/u01/masterdata/au/audamobile/ && sleep 10
                   scp lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/au/audamobile/
                   ;;
 
@@ -311,7 +307,6 @@ case "$ENV" in
       ;;
 
 esac
-
 
 #Searchtree
 #update the lastversion.dat in /u01/masterdata/<au/nz>/searchtree folder
@@ -341,17 +336,17 @@ case "$ENV" in
               case "$COUNTRY" in
                   au)
                   cd $AU_ROOT/searchtree/
-                  scp -r $ST_AU  tcserver@axn-tc01-p2au:/u01/masterdata/au/searchtree/ && sleep 5
+                  scp -rp $ST_AU  tcserver@axn-tc01-p2au:/u01/masterdata/au/searchtree/ && sleep 5
                   scp lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/au/searchtree/
-                  scp -r $ST_AU  tcserver@axn-tc01-p2au:/u01/axn/config/au/searchtree/
+                  scp -rp $ST_AU  tcserver@axn-tc01-p2au:/u01/axn/config/au/searchtree/
                   scp lastversion.dat tcserver@axn-tc01-p2au:/u01/axn/config/au/searchtree/
                   ;;
 
                   nz)
                   cd $NZ_ROOT/searchtree/
-                  scp -r $ST_NZ  tcserver@axn-tc01-p2au:/u01/masterdata/nz/searchtree/ && sleep 5
+                  scp -rp $ST_NZ  tcserver@axn-tc01-p2au:/u01/masterdata/nz/searchtree/ && sleep 5
                   scp lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/nz/searchtree/
-                  scp -r $ST_NZ  tcserver@axn-tc01-p2au:/u01/axn/config/nz/searchtree/
+                  scp -rp $ST_NZ  tcserver@axn-tc01-p2au:/u01/axn/config/nz/searchtree/
                   scp lastversion.dat tcserver@axn-tc01-p2au:/u01/axn/config/nz/searchtree/
                   ;;
               esac
@@ -381,25 +376,6 @@ case "$ENV" in
 esac
 
 #webpaddata
-#-- The files are uploaded via the FTP to the int servers by the data teams
-
-#-- The location of the uploads is: /u01/masterdata/au/Qapter/000x
-
-#-- List the folders by the date and note the folders
-
-#-- The latest folder needs to be copied to : /u01/masterdata/au/webpaddata/
-#-- Keep in mind that the latest folder in this location can be different from what is uploaded in /u01/masterdata/au/Qapter.
-
-#-- Let's assume for the sake of this exercise that the uploaded folder is '000x' and the latest folder that exists in /u01/masterdata/au/webpaddata is '000y'
-
-#-- We need to copy the data from '000x' to '000y+1/data/'
-
-#-- Once this is done, the "tips" folder needs to be copied from '000y' to '000y+1/data/' [Note: the tips folder would be found in the folder that is listed in the lastversion.dat file]
-
-
-#-- Next step would be to update the lastversion.dat with '000y+1'
-
-#Three cases 1.INT 2.PP 3.PROD
 case "$ENV" in
 
 
@@ -417,8 +393,8 @@ case "$ENV" in
 #Next, go back to the Qapter folder where the latest files are uploaded and copy them
 #+ to the newly created directory, in the steps above.
                   cd $AU_ROOT/Qapter
-                  cp -rp $QAP_AU/* $AU_ROOT/webpaddata/"WP_NEW"/data/
-                  cp -rp $QAP_AU/data/tips $AU_ROOT/webpaddata/"WP_NEW"/data/
+                  cp -rp $QAP_AU/* $AU_ROOT/webpaddata/"$WP_NEW"/data/
+                  cp -rp $QAP_AU/data/tips $AU_ROOT/webpaddata/"$WP_NEW"/data/
                   cd $AU_ROOT/webpaddata/
                   echo "$WP_NEW" > lastversion.dat
                   ;;
@@ -442,10 +418,19 @@ case "$ENV" in
       PP)
               case "$COUNTRY" in
                   au)
-
+                  cd $AU_ROOT/webpaddata/
+                  scp -rp $QAP_AU tcserver@axn-tc01-p2au:/u01/masterdata/$COUNTRY/webpaddata/ #In this  case QAP_AU will be the version of webpaddata folder that has been updated on INT1 and not the actual Qapter version.
+                  echo "$QAP_AU" > /tmp/lastversion.dat
+                  scp -rp /tmp/lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/$COUNTRY/webpaddata/ && sleep 5
+                  rm -f /tmp/lastversion.dat
                   ;;
 
                   nz)
+                  cd $NZ_ROOT/webpaddata/
+                  scp -rp $QAP_NZ tcserver@axn-tc01-p2au:/u01/masterdata/$COUNTRY/webpaddata/ #In this  case QAP_AU will be the version of webpaddata folder that has been updated on INT1 and not the actual Qapter version.
+                  echo "$QAP_NZ" > /tmp/lastversion.dat
+                  scp -rp /tmp/lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/$COUNTRY/webpaddata/ && sleep 5
+                  rm -f /tmp/lastversion.dat
                   ;;
               esac
       ;;
@@ -454,25 +439,23 @@ case "$ENV" in
 
               case "$COUNTRY" in
                   au)
-                  cd $AU_ROOT/searchtree/
-                  cp -rp "$ST_AU"/ $SRCHTREE_PROD_DATA/ && sleep 5
-                  echo "$ST_AU" > "$SRCHTREE_PROD_DATA"/lastversion.dat
-                  cp -rp "$ST_AU" "$SRCHTREE_PROD_CNFG"/
-                  echo "$ST_AU" > "$SRCHTREE_PROD_CNFG"/lastversion.dat
+                  cd $AU_ROOT/webpaddata/
+                  cp -rp $QAP_AU $APWEB_PROD && sleep 5
+                  echo "$QAP_AU" > $APWEB_PROD/lastversion.dat
                   ;;
 
                   nz)
-                  cd $NZ_ROOT/searchtree/
-                  cp -rp "$ST_AU"/ $SRCHTREE_PROD_DATA/ && sleep 5
-                  echo "$ST_AU" > "$SRCHTREE_PROD_DATA"/lastversion.dat
-                  cp -rp "$ST_AU" "$SRCHTREE_PROD_CNFG"/
-                  echo "$ST_AU" > "$SRCHTREE_PROD_CNFG"/lastversion.dat
+                  cd $NZ_ROOT/webpaddata/
+                  cp -rp $QAP_NZ $APWEB_PROD && sleep 5
+                  echo "$QAP_NZ" > $APWEB_PROD/lastversion.dat
                   ;;
               esac
       ;;
 
 esac
-
-
-
 }
+
+#Now that all the types of releases have been encapsulated in the form of functions
+#+ it's time to call these functions based on user input.
+
+case
