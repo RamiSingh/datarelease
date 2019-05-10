@@ -210,7 +210,7 @@ case "$ENV" in
               case "$COUNTRY" in
                   au)
                  local AU_ROOT=/mnt/backup/volaxn_iau/nfs/int1/masterdata/au/
-                  cd $AU_ROOT/apwebdata/ || exit 4
+                  cd $AU_ROOT/apwebdata/
                   LAST_VER_AU=$(cat lastversion.dat)
                   cp -rp $LAST_VER_AU/tips/ $APW_AU/ && sleep 10
                   echo "$APW_AU" > lastversion.dat
@@ -218,7 +218,7 @@ case "$ENV" in
 
                   nz)
                   local NZ_ROOT=/mnt/backup/volaxn_iau/nfs/int1/masterdata/au/
-                  cd $NZ_ROOT/apwebdata/ || exit 4
+                  cd $NZ_ROOT/apwebdata/
                   LAST_VER_NZ=$(cat lastversion.dat)
                   cp -rp $LAST_VER_NZ/tips/ $APW_NZ/ && sleep 10
                   echo "$APW_NZ" > lastversion.dat
@@ -229,13 +229,13 @@ case "$ENV" in
       PP)
               case "$COUNTRY" in
                   au)
-                  cd $AU_ROOT/apwebdata/ || exit 4
+                  cd $AU_ROOT/apwebdata/
                   scp -r $APW_AU  tcserver@axn-tc01-p2au:/u01/masterdata/au/apwebdata/ && sleep 10
                   scp lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/au/apwebdata/
                   ;;
 
                   nz)
-                  cd $NZ_ROOT/apwebdata/ || exit 4
+                  cd $NZ_ROOT/apwebdata/
                   scp -r $APW_NZ  tcserver@axn-tc01-p2au:/u01/masterdata/nz/apwebdata/ && sleep 10
                   scp lastversion.dat tcserver@axn-tc01-p2au:/u01/masterdata/nz/apwebdata/
                   ;;
@@ -246,14 +246,14 @@ case "$ENV" in
 
               case "$COUNTRY" in
                   au)
-                  cd $AU_ROOT/apwebdata/ || exit 4
+                  cd $AU_ROOT/apwebdata/
                   cp -rp $APW_AU/ $APWEB_PROD/ && sleep 10
                   echo "$APW_AU" > $APWEB_PROD/lastversion.dat
                   ;;
 
                   nz)
                   #COMMANDS
-                  cd $NZ_ROOT/apwebdata/ || exit 4
+                  cd $NZ_ROOT/apwebdata/
                   cp -rp $APW_NZ/ $APWEB_PROD/ && sleep 10
                   echo "$APW_NZ" > $APWEB_PROD/lastversion.dat
                   ;;
