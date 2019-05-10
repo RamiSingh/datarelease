@@ -199,7 +199,7 @@ price_update()
 data_update()
 {
 local AU_ROOT=/mnt/backup/volaxn_iau/nfs/int1/masterdata/au/
-local NZ_ROOT=/mnt/backup/volaxn_iau/nfs/int1/masterdata/au/
+local NZ_ROOT=/mnt/backup/volaxn_iau/nfs/int1/masterdata/nz/
 #Three cases 1.INT 2.PP 3.PROD
 case "$ENV" in
 
