@@ -461,3 +461,6 @@ esac
 
 #The main function is now called to perform the tasks depending on the user input captured above.
 main
+
+#NOTE: it would be a good idea to email the versions of the files before and after the change to the SD team in an email
+#+ so that they can compare and confirm that the changes were actually made and correctly so. 
